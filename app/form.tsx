@@ -58,8 +58,8 @@ export function ProfileForm() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-lg mx-auto">
+      <Form {...form} aria-label="Profile Form">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-lg mx-auto">
         {currentPage === 1 && (
           <>
             <FormField
@@ -67,7 +67,7 @@ export function ProfileForm() {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel htmlFor="first_name">First Name</FormLabel> 
                   <FormControl>
                     <Input placeholder="Enter your first name" {...field} />
                   </FormControl>
@@ -80,7 +80,7 @@ export function ProfileForm() {
               name="secondName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Second Name</FormLabel>
+                  <FormLabel htmlFor="last_name">Second Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your second name" {...field} />
                   </FormControl>
@@ -89,18 +89,18 @@ export function ProfileForm() {
               )}
             />
             <FormField
-              control={form.control}
-              name="dob"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            control={form.control}
+            name="dob"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="dob">Date of Birth</FormLabel> 
+                <FormControl>
+                  <Input type="date" id="dob" {...field} /> 
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </>
         )}
 
