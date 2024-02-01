@@ -12,6 +12,7 @@ import {
   FormItem,
   FormMessage,
   FormField,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,12 +24,15 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 
+import "./ProfileForm.css";
+
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required." }),
   secondName: z.string().min(1, { message: "Second name is required." }),
   dob: z.string().min(1, { message: "Date of Birth is required." }), // Assuming DOB as a string in YYYY-MM-DD format, want to make this more dynamic
   question1: z.string().min(1, { message: "This field is required." }),
   question2: z.string().min(1, { message: "This field is required." }),
+  num_hackathons: z.number().int().positive({ message: "This field is required." }),
 });
 
 export function ProfileForm() {
@@ -42,6 +46,7 @@ export function ProfileForm() {
       dob: "",
       question1: "",
       question2: "",
+      num_hackathons: 0,
     },
   });
 
@@ -80,7 +85,7 @@ export function ProfileForm() {
               name="secondName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="lastName">Second Name</FormLabel>
+                  <FormLabel htmlFor="secondName">Second Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your second name" {...field} />
                   </FormControl>
@@ -111,7 +116,7 @@ export function ProfileForm() {
               name="question1"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="question1">Question 1</FormLabel>
+                  <FormLabel htmlFor="question1">What do you want to build at MHacks 17?</FormLabel>
                   <FormControl>
                     <Input placeholder="Answer for question 1" {...field} />
                   </FormControl>
@@ -124,10 +129,30 @@ export function ProfileForm() {
               name="question2"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="question2">Question 2</FormLabel>
+                  <FormLabel htmlFor="question2">Why MHacks?</FormLabel>
                   <FormControl>
                     <Input placeholder="Answer for question 2" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="num_hackathons"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="num_hackathons">How Many Hackathons have you attended?</FormLabel>
+                  <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="0"
+                    {...field}
+                    onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
+                    value={field.value === 0 ? '' : field.value}
+                  />
+                  </FormControl>
+                  <FormDescription>No worries if it's none! MHacks is really excited to have you join us.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
