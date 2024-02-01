@@ -67,7 +67,7 @@ export function ProfileForm() {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="first_name">First Name</FormLabel> 
+                  <FormLabel htmlFor="firstName">First Name</FormLabel> 
                   <FormControl>
                     <Input placeholder="Enter your first name" {...field} />
                   </FormControl>
@@ -80,7 +80,7 @@ export function ProfileForm() {
               name="secondName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="last_name">Second Name</FormLabel>
+                  <FormLabel htmlFor="lastName">Second Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your second name" {...field} />
                   </FormControl>
@@ -111,7 +111,7 @@ export function ProfileForm() {
               name="question1"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Question 1</FormLabel>
+                  <FormLabel htmlFor="question1">Question 1</FormLabel>
                   <FormControl>
                     <Input placeholder="Answer for question 1" {...field} />
                   </FormControl>
@@ -124,7 +124,7 @@ export function ProfileForm() {
               name="question2"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Question 2</FormLabel>
+                  <FormLabel htmlFor="question2">Question 2</FormLabel>
                   <FormControl>
                     <Input placeholder="Answer for question 2" {...field} />
                   </FormControl>
