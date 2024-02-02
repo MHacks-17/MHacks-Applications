@@ -23,16 +23,20 @@ import {
   PaginationPrevious,
   PaginationLink,
 } from "@/components/ui/pagination";
-
+import { Textarea } from "@/components/ui/textarea"
 import "./ProfileForm.css";
+import TagSelection from "./tag-select";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required." }),
   lastName: z.string().min(1, { message: "Second name is required." }),
   dob: z.string().min(1, { message: "Date of Birth is required." }), // Assuming DOB as a string in YYYY-MM-DD format, want to make this more dynamic
+  selectedTags: z.array(z.string()),
   question1: z.string().min(1, { message: "This field is required." }),
   question2: z.string().min(1, { message: "This field is required." }),
   num_hackathons: z.number().int().positive({ message: "This field is required." }),
+  resume: z.any().optional(),
+
 });
 
 export function ProfileForm() {
@@ -44,9 +48,12 @@ export function ProfileForm() {
       firstName: "",
       lastName: "",
       dob: "",
+      selectedTags: [],
       question1: "",
       question2: "",
       num_hackathons: 0,
+      resume: "",
+
     },
   });
 
@@ -63,8 +70,8 @@ export function ProfileForm() {
   };
 
   return (
-      <Form {...form} aria-label="Profile Form">
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-lg mx-auto form-content">
+    <Form {...form} aria-label="Profile Form">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-lg mx-auto form-content">
         {currentPage === 1 && (
           <>
             <FormField
@@ -72,9 +79,9 @@ export function ProfileForm() {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="firstName">First Name</FormLabel> 
+                  <FormLabel htmlFor="firstName">First Name</FormLabel>
                   <FormControl>
-                    <Input id= "firstName" placeholder="Enter your first name" {...field} />
+                    <Input id="firstName" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,27 +92,50 @@ export function ProfileForm() {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="lastName">Second Name</FormLabel>
+                  <FormLabel htmlFor="lastName">Last Name</FormLabel>
                   <FormControl>
-                    <Input id= "lastName" placeholder="Enter your second name" {...field} />
+                    <Input id="lastName" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-            control={form.control}
-            name="dob"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="dob">Date of Birth</FormLabel> 
-                <FormControl>
-                  <Input type="date" id="dob" {...field} /> 
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              control={form.control}
+              name="selectedTags"
+              render={({ field }) => (
+                <FormItem>
+                  <TagSelection
+                    selectedTags={field.value}
+                    onChange={field.onChange}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="dob"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="dob">Date of Birth</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      id="dob"
+                      {...field}
+                      onKeyDown={(e) => {
+                        if (e.key === "Tab" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleNext();
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </>
         )}
 
@@ -118,7 +148,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel htmlFor="question1">What do you want to build at MHacks 17?</FormLabel>
                   <FormControl>
-                    <Input id= "question1" placeholder="Answer for question 1" {...field} />
+                    <Textarea id="question1" placeholder="Answer for question 1" className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,7 +161,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel htmlFor="question2">Why MHacks?</FormLabel>
                   <FormControl>
-                    <Input id= "question2" placeholder="Answer for question 2" {...field} />
+                    <Textarea id="question2" placeholder="Answer for question 2" className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,20 +174,34 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel htmlFor="num_hackathons">How Many Hackathons have you attended?</FormLabel>
                   <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    id="num_hackathons"
-                    {...field}
-                    onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
-                    value={field.value === 0 ? '' : field.value}
-                  />
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      id="num_hackathons"
+                      {...field}
+                      onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
+                      value={field.value === 0 ? '' : field.value}
+                    />
                   </FormControl>
                   <FormDescription>No worries if it's none! MHacks is really excited to have you join us.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormField // TODO: need to set up file storage and upload. This is a placeholder for now.
+              control={form.control}
+              name="resume"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="resume">Upload your resume</FormLabel>
+                  <FormControl>
+                    <Input type="file" id="resume" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button type="submit">Submit</Button>
           </>
         )}
