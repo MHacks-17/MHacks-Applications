@@ -1,1 +1,6 @@
 /* TODO: Add some styling for the form to make it responsive + mobile ready! */
+@media (max-width: 768px) {
+    .form-content {
+      padding: 20px; /* I am a CSS God. */
+    }
+  }

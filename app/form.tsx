@@ -28,7 +28,7 @@ import "./ProfileForm.css";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required." }),
-  secondName: z.string().min(1, { message: "Second name is required." }),
+  lastName: z.string().min(1, { message: "Second name is required." }),
   dob: z.string().min(1, { message: "Date of Birth is required." }), // Assuming DOB as a string in YYYY-MM-DD format, want to make this more dynamic
   question1: z.string().min(1, { message: "This field is required." }),
   question2: z.string().min(1, { message: "This field is required." }),
@@ -42,7 +42,7 @@ export function ProfileForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
-      secondName: "",
+      lastName: "",
       dob: "",
       question1: "",
       question2: "",
@@ -64,7 +64,7 @@ export function ProfileForm() {
 
   return (
       <Form {...form} aria-label="Profile Form">
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-lg mx-auto">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-lg mx-auto form-content">
         {currentPage === 1 && (
           <>
             <FormField
@@ -74,7 +74,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel htmlFor="firstName">First Name</FormLabel> 
                   <FormControl>
-                    <Input placeholder="Enter your first name" {...field} />
+                    <Input id= "firstName" placeholder="Enter your first name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,12 +82,12 @@ export function ProfileForm() {
             />
             <FormField
               control={form.control}
-              name="secondName"
+              name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="secondName">Second Name</FormLabel>
+                  <FormLabel htmlFor="lastName">Second Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your second name" {...field} />
+                    <Input id= "lastName" placeholder="Enter your second name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +118,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel htmlFor="question1">What do you want to build at MHacks 17?</FormLabel>
                   <FormControl>
-                    <Input placeholder="Answer for question 1" {...field} />
+                    <Input id= "question1" placeholder="Answer for question 1" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,7 +131,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel htmlFor="question2">Why MHacks?</FormLabel>
                   <FormControl>
-                    <Input placeholder="Answer for question 2" {...field} />
+                    <Input id= "question2" placeholder="Answer for question 2" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,6 +147,7 @@ export function ProfileForm() {
                   <Input
                     type="number"
                     placeholder="0"
+                    id="num_hackathons"
                     {...field}
                     onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
                     value={field.value === 0 ? '' : field.value}

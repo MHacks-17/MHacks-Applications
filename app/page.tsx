@@ -1,4 +1,3 @@
-// import form from the form.tsx file
 import { ProfileForm } from "@/app/form"
 import { ModeToggle } from '@/components/ui/mode-toggle';
 
